@@ -6,7 +6,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.3'
 gem 'bcrypt'
 gem 'bootsnap', require: false
-gem 'knock'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors'

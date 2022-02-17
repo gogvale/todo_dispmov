@@ -88,11 +88,6 @@ GEM
     io-wait (0.2.1)
     irb (1.4.1)
       reline (>= 0.3.0)
-    jwt (1.5.6)
-    knock (2.1.1)
-      bcrypt (~> 3.1)
-      jwt (~> 1.5)
-      rails (>= 4.2)
     loofah (2.14.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -194,7 +189,6 @@ DEPENDENCIES
   bootsnap
   debug
   factory_bot
-  knock
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
