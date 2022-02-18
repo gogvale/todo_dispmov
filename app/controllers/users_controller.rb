@@ -1,18 +1,14 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :find_user, except: %i[index create]
   def index
     @users = User.all
     render json: @users, status: :ok
   end
 
   def show
-    @user = User.find_by(id: params[:id])
-    if @user
-      render json: @user, status: :ok
-    else
-      render(json: { message: 'User not found' }, status: :bad_request)
-    end
+    render json: @user, status: :ok
   end
 
   def create
@@ -26,28 +22,18 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(id: params[:id])
-    if @user
-      if @user.update(user_params)
-        render json: @user, status: :ok
-      else
-        render json: @user.errors, status: :unprocessable_entity
-      end
+    if @user.update(user_params)
+      render json: @user, status: :ok
     else
-      render(json: { message: 'User not found' }, status: :bad_request)
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @user = User.find_by(id: params[:id])
-    if @user
-      if @user.destroy
-        render json: { message: 'User destroyed successfully' }, status: :ok
-      else
-        render json: @user.errors, status: :unprocessable_entity
-      end
+    if @user.destroy
+      render json: { message: 'User destroyed successfully' }, status: :ok
     else
-      render(json: { message: 'User not found' }, status: :bad_request)
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -55,5 +41,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)
+  end
+
+  def find_user
+    @user = User.find_by(id: params[:id])
+    raise UserNotFound unless @user
   end
 end

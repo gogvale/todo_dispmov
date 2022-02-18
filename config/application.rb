@@ -12,6 +12,7 @@ module TodoDispmov
     config.load_defaults 7.0
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
+      g.orm :active_record, foreign_key_type: :uuid
     end
 
     # Configuration for the application, engines, and railties goes here.
