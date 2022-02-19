@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :tasks
+  resources :group_tasks
   resources :users
   resources :sessions, only: [:create]
   resources :groups do

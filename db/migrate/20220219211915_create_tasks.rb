@@ -1,6 +1,6 @@
 class CreateTasks < ActiveRecord::Migration[7.0]
   def change
-    create_table :tasks, id: :uuid do |t|
+    create_table :group_tasks, id: :uuid do |t|
       t.belongs_to :assignee, foreign_key: { to_table: :users }, type: :uuid
       t.boolean :completed
       t.string :description
