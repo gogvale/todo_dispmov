@@ -9,4 +9,5 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of(:email).case_insensitive }
   it { should validate_presence_of(:password) }
   it { should have_and_belong_to_many(:groups) }
+  it { should have_many(:tasks).class_name('Task') }
 end
