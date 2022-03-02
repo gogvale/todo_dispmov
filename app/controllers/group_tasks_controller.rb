@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 class GroupTasksController < ApplicationController
-  before_action :set_task, only: %i[ show update destroy ]
+  before_action :find_group
+  before_action :set_task, only: %i[show update destroy]
 
   # GET /group_tasks
   def index
-    @group_tasks = GroupTask.all
+    @group_tasks = @group.group_tasks
 
     render json: @group_tasks
   end
@@ -15,10 +18,10 @@ class GroupTasksController < ApplicationController
 
   # POST /group_tasks
   def create
-    @group_task = GroupTask.new(task_params)
+    @group_task = @group.group_tasks.new(task_params)
 
     if @group_task.save
-      render json: @group_task, status: :created, location: @group_task
+      render json: @group_task, status: :created
     else
       render json: @group_task.errors, status: :unprocessable_entity
     end
@@ -39,13 +42,20 @@ class GroupTasksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @group_task = GroupTask.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def task_params
-      params.require(:group_task).permit(:assignee_id, :completed, :description, :parent_id)
-    end
+  def find_group
+    @group = Group.find(params[:group_id])
+    raise GroupNotFound unless @group
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_task
+    @group_task = GroupTask.joins(:assignee).find_by(id: params[:id])
+    raise GroupTaskNotFound unless @group_task
+  end
+
+  # Only allow a list of trusted parameters through.
+  def task_params
+    params.require(:group_task).permit(:assignee_id, :completed, :description, :parent_id)
+  end
 end
