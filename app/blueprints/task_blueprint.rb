@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GroupTaskBlueprint < Blueprinter::Base
+class TaskBlueprint < Blueprinter::Base
   identifier :id
   fields :description, :completed
   association :assignee, blueprint: UserBlueprint
